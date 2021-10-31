@@ -9,8 +9,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  console.log(req.query.id);
-  if (req.query.id && typeof req.query.id === "number") {
+  if (req.query.id) {
     try {
       const sql = "delete from todo_table where id = $1";
       const values = [req.query.id];
