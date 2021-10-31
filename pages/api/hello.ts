@@ -1,17 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-
-// create table todo_table (id integer, content text);
-// insert into todo_table values (1, 'Test todo');
-// insert into todo_table values (2, 'Just do it!');
-
-const { Pool } = require("pg");
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
+import { pool } from "../../lib/db";
 
 type Data = {
   items: Item[];
