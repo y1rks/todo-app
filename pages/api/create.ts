@@ -16,7 +16,8 @@ export default async function handler(
   if (req.body.content && typeof req.body.content === "string") {
     try {
       const sql = "INSERT INTO todo_table(content) VALUES($1)";
-      const values = [...req.body.content];
+      const values = [req.body.content];
+      console.log(values);
       const client = await pool.connect();
       const result = await client.query(sql, values);
       client.release();
