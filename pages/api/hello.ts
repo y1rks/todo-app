@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { pool } from "../../lib/db";
 
 type Data = {
-  items: Item[];
+  results: Item[];
 };
 
 type Item = {
@@ -19,17 +19,11 @@ export default async function handler(
   try {
     const client = await pool.connect();
     const result = await client.query("SELECT * FROM todo_table");
-    const results = { results: result ? result.rows : null };
+    const results = { results: result ? result.rows : null } as Data;
     console.log(results);
     client.release();
+    res.status(200).json(results);
   } catch (err) {
     console.error(err);
   }
-
-  res.status(200).json({
-    items: [
-      { id: 1, content: "This is test content." },
-      { id: 2, content: "Just do it!" },
-    ],
-  });
 }
