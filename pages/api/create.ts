@@ -11,15 +11,13 @@ export default async function handler(
 ) {
   // DB connection
   try {
-    const sql = "";
-
-    const client = await pool.connect();
-    const result = await client.query(
-      "insert into todo_table values (1, 'Test todo')"
-    );
-    const results = { results: result ? result.rows : null };
-    console.log(results);
-    client.release();
+    // const client = await pool.connect();
+    // const result = await client.query(
+    //   "insert into todo_table values (3, 'Test todo3')"
+    // );
+    // const results = { results: result ? result.rows : null };
+    // console.log(results);
+    // client.release();
     res.status(200).json({ success: true });
   } catch (err) {
     console.error(err);
