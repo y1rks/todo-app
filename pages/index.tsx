@@ -62,9 +62,9 @@ const Todo: NextPage = () => {
       </p>
       <button onClick={() => registerTodo(content)}>Add</button>
       <ul>
-        {todos.map((todo, index) => (
-          <li key={index}>
-            <p>{todo}</p>
+        {todos.map((todo) => (
+          <li key={todo.id}>
+            <p>{todo.content}</p>
             <button>Delete</button>
           </li>
         ))}
