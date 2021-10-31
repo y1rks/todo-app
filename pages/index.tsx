@@ -39,8 +39,6 @@ async function fetchAllTodo(): Promise<ShowAllResponse> {
 async function deleteTodo(id: number) {
   const url = new URL(DELETE_URL);
   url.searchParams.append("id", String(id));
-  console.log("#########");
-  console.log(url.href);
   const res = await fetch(url.href, { method: "GET" });
 }
 
