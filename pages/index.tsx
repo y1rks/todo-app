@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 
 const SHOW_ALL_URL = "https://guarded-tundra-11745.herokuapp.com/api/showAll";
-const REGISTER_URL = "http://localhost:3000/api/register";
+const REGISTER_URL = "https://guarded-tundra-11745.herokuapp.com/api/register";
 
 type ShowAllResponse = {
   results: Item[];
@@ -37,14 +37,11 @@ async function fetchAllTodo(): Promise<ShowAllResponse> {
 
 const Todo: NextPage = () => {
   const [todos, setTodos] = useState([] as Item[]);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState("" as string);
 
   useEffect(() => {
     const func = async () => {
       const res: ShowAllResponse = await fetchAllTodo();
-      console.log("########");
-      console.log("########");
-      console.log(res.results);
       setTodos(res.results);
     };
     func();
