@@ -5,6 +5,7 @@ import styles from "../styles/Home.module.css";
 
 const SHOW_ALL_URL = "https://guarded-tundra-11745.herokuapp.com/api/showAll";
 const REGISTER_URL = "https://guarded-tundra-11745.herokuapp.com/api/register";
+const DELETE_URL = "https://guarded-tundra-11745.herokuapp.com/api/delete";
 
 type ShowAllResponse = {
   results: Item[];
@@ -35,6 +36,14 @@ async function fetchAllTodo(): Promise<ShowAllResponse> {
   return res.json() as unknown as ShowAllResponse;
 }
 
+async function deleteTodo(id: number) {
+  const url = new URL(DELETE_URL);
+  url.searchParams.append("id", String(id));
+  console.log("#########");
+  console.log(url.href);
+  const res = await fetch(url.href, { method: "GET" });
+}
+
 const Todo: NextPage = () => {
   const [todos, setTodos] = useState([] as Item[]);
   const [content, setContent] = useState("" as string);
@@ -62,7 +71,13 @@ const Todo: NextPage = () => {
         {todos.map((todo) => (
           <li key={todo.id}>
             <p>{todo.content}</p>
-            <button>Delete</button>
+            <button
+              onClick={() => {
+                deleteTodo(todo.id);
+              }}
+            >
+              Delete
+            </button>
           </li>
         ))}
       </ul>
