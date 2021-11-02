@@ -16,7 +16,7 @@ type Item = {
   content: string;
 };
 
-function registerTodo(content: string) {
+function registerTodo(content: string, setTodos: Function) {
   fetch(REGISTER_URL, {
     method: "POST",
     headers: {
@@ -25,7 +25,9 @@ function registerTodo(content: string) {
     body: JSON.stringify({
       content,
     }),
-  }).then((res) => {
+  }).then(async (res) => {
+    const allTodos: ShowAllResponse = await fetchAllTodo();
+    setTodos(allTodos.results);
     return res.json();
   });
 }
@@ -39,10 +41,12 @@ async function fetchAllTodo(): Promise<ShowAllResponse> {
   }
 }
 
-async function deleteTodo(id: number) {
+async function deleteTodo(id: number, setTodos: Function) {
   const url = new URL(DELETE_URL);
   url.searchParams.append("id", String(id));
   const res = await fetch(url.href, { method: "GET" });
+  const allTodos: ShowAllResponse = await fetchAllTodo();
+  setTodos(allTodos.results);
 }
 
 const Todo: NextPage = () => {
@@ -55,7 +59,7 @@ const Todo: NextPage = () => {
       setTodos(res.results);
     };
     func();
-  });
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -70,7 +74,7 @@ const Todo: NextPage = () => {
           type="text"
           onChange={(e) => setContent(e.target.value)}
         ></input>
-        <button onClick={() => registerTodo(content)}>Add</button>
+        <button onClick={() => registerTodo(content, setTodos)}>Add</button>
       </div>
 
       <ul className={styles.container__taskLists}>
@@ -79,7 +83,7 @@ const Todo: NextPage = () => {
             <button
               className={styles.container__taskListButton}
               onClick={() => {
-                deleteTodo(todo.id);
+                deleteTodo(todo.id, setTodos);
               }}
             >
               Delete
