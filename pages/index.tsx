@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import styles from "../styles/Home.module.css";
+import styles from "../styles/Todo.module.scss";
 
 const SHOW_ALL_URL = "https://guarded-tundra-11745.herokuapp.com/api/showAll";
 const REGISTER_URL = "https://guarded-tundra-11745.herokuapp.com/api/register";
@@ -31,9 +31,12 @@ function registerTodo(content: string) {
 }
 
 async function fetchAllTodo(): Promise<ShowAllResponse> {
-  const res = await fetch(SHOW_ALL_URL, { method: "GET" });
-
-  return res.json() as unknown as ShowAllResponse;
+  try {
+    const res = await fetch(SHOW_ALL_URL, { method: "GET" });
+    return res.json() as unknown as ShowAllResponse;
+  } catch {
+    return { results: [] };
+  }
 }
 
 async function deleteTodo(id: number) {
