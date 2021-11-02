@@ -16,20 +16,28 @@ type Item = {
   content: string;
 };
 
-function registerTodo(content: string, setTodos: Function) {
-  fetch(REGISTER_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      content,
-    }),
-  }).then(async (res) => {
+async function registerTodo(
+  content: string,
+  setTodos: Function,
+  setContent: Function
+) {
+  try {
+    const res = await fetch(REGISTER_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        content,
+      }),
+    });
     const allTodos: ShowAllResponse = await fetchAllTodo();
     setTodos(allTodos.results);
+    setContent("");
     return res.json();
-  });
+  } catch {
+    return {};
+  }
 }
 
 async function fetchAllTodo(): Promise<ShowAllResponse> {
@@ -74,7 +82,9 @@ const Todo: NextPage = () => {
           type="text"
           onChange={(e) => setContent(e.target.value)}
         ></input>
-        <button onClick={() => registerTodo(content, setTodos)}>Add</button>
+        <button onClick={() => registerTodo(content, setTodos, setContent)}>
+          Add
+        </button>
       </div>
 
       <ul className={styles.container__taskLists}>
