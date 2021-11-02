@@ -63,22 +63,28 @@ const Todo: NextPage = () => {
         <title>Todo App</title>
       </Head>
       <h1>TODO</h1>
-      <p>
-        task:{" "}
-        <input type="text" onChange={(e) => setContent(e.target.value)}></input>
-      </p>
-      <button onClick={() => registerTodo(content)}>Add</button>
-      <ul>
+      <div className={styles.container__taskElement}>
+        <p className={styles.container__taskText}>Task: </p>
+        <input
+          className={styles.container__taskInput}
+          type="text"
+          onChange={(e) => setContent(e.target.value)}
+        ></input>
+        <button onClick={() => registerTodo(content)}>Add</button>
+      </div>
+
+      <ul className={styles.container__taskLists}>
         {todos.map((todo) => (
-          <li key={todo.id}>
-            <p>{todo.content}</p>
+          <li key={todo.id} className={styles.container__taskList}>
             <button
+              className={styles.container__taskListButton}
               onClick={() => {
                 deleteTodo(todo.id);
               }}
             >
               Delete
             </button>
+            <p className={styles.container__taskListContent}>{todo.content}</p>
           </li>
         ))}
       </ul>
