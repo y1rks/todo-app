@@ -80,6 +80,7 @@ const Todo: NextPage = () => {
         <input
           className={styles.container__taskInput}
           type="text"
+          value={content}
           onChange={(e) => setContent(e.target.value)}
         ></input>
         <button onClick={() => registerTodo(content, setTodos, setContent)}>
